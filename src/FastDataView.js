@@ -52,99 +52,99 @@
         return this.int8Array[0];
     };
 
-    FastDataView.prototype.setUint16 = function(offset, value) {
-        this.byteArray[offset] = value >>> 8;
-        this.byteArray[offset + 1] = value;
+    FastDataView.prototype.setUint16 = function(offset, value, littleEndian) {
+        this.byteArray[offset + ((littleEndian)?1:0)] = value >>> 8;
+        this.byteArray[offset + ((littleEndian)?0:1)] = value;
     };
 
-    FastDataView.prototype.getUint16 = function(offset) {
-        var a = this.byteArray[offset];
-        var b = this.byteArray[offset + 1];
+    FastDataView.prototype.getUint16 = function(offset, littleEndian) {
+        var a = this.byteArray[offset + ((littleEndian)?1:0)];
+        var b = this.byteArray[offset + ((littleEndian)?0:1)];
         return (a << 8) | b;
     };
 
-    FastDataView.prototype.setInt16 = function(offset, value) {
-        this.byteArray[offset] = value >>> 8;
-        this.byteArray[offset + 1] = value;
+    FastDataView.prototype.setInt16 = function(offset, value, littleEndian) {
+        this.byteArray[offset + ((littleEndian)?1:0)] = value >>> 8;
+        this.byteArray[offset + ((littleEndian)?0:1)] = value;
     };
 
-    FastDataView.prototype.getInt16 = function(offset) {
+    FastDataView.prototype.getInt16 = function(offset, littleEndian) {
         // Use TypedArray
-        this.uint8Array[0] = this.byteArray[offset + 1];
-        this.uint8Array[1] = this.byteArray[offset];
+        this.uint8Array[0] = this.byteArray[offset + ((littleEndian)?0:1)];
+        this.uint8Array[1] = this.byteArray[offset + ((littleEndian)?1:0)];
         return this.int16Array[0];
     };
 
-    FastDataView.prototype.setUint32 = function(offset, value) {
-        this.byteArray[offset] = value >>> 24;
-        this.byteArray[offset + 1] = (value >>> 16);
-        this.byteArray[offset + 2] = (value >>> 8);
-        this.byteArray[offset + 3] = value;
+    FastDataView.prototype.setUint32 = function(offset, value, littleEndian) {
+        this.byteArray[offset + ((littleEndian)?3:0)] = value >>> 24;
+        this.byteArray[offset + ((littleEndian)?2:1)] = (value >>> 16);
+        this.byteArray[offset + ((littleEndian)?1:2)] = (value >>> 8);
+        this.byteArray[offset + ((littleEndian)?0:3)] = value;
     };
 
-    FastDataView.prototype.getUint32 = function(offset) {
-        var a = this.byteArray[offset];
-        var b = this.byteArray[offset + 1];
-        var c = this.byteArray[offset + 2];
-        var d = this.byteArray[offset + 3];
+    FastDataView.prototype.getUint32 = function(offset, littleEndian) {
+        var a = this.byteArray[offset + ((littleEndian)?3:0)];
+        var b = this.byteArray[offset + ((littleEndian)?2:1)];
+        var c = this.byteArray[offset + ((littleEndian)?1:2)];
+        var d = this.byteArray[offset + ((littleEndian)?0:3)];
         return ((a << 24) >>> 0) + ((b << 16) | (c << 8) | (d));
     };
 
-    FastDataView.prototype.setInt32 = function(offset, value) {
-        this.byteArray[offset] = value >>> 24;
-        this.byteArray[offset + 1] = (value >>> 16);
-        this.byteArray[offset + 2] = (value >>> 8);
-        this.byteArray[offset + 3] = value;
+    FastDataView.prototype.setInt32 = function(offset, value, littleEndian) {
+        this.byteArray[offset + ((littleEndian)?3:0)] = value >>> 24;
+        this.byteArray[offset + ((littleEndian)?2:1)] = (value >>> 16);
+        this.byteArray[offset + ((littleEndian)?1:2)] = (value >>> 8);
+        this.byteArray[offset + ((littleEndian)?0:3)] = value;
     };
 
-    FastDataView.prototype.getInt32 = function(offset) {
+    FastDataView.prototype.getInt32 = function(offset, littleEndian) {
         // Use TypedArray
-        this.uint8Array[0] = this.byteArray[offset + 3];
-        this.uint8Array[1] = this.byteArray[offset + 2];
-        this.uint8Array[2] = this.byteArray[offset + 1];
-        this.uint8Array[3] = this.byteArray[offset];
+        this.uint8Array[0] = this.byteArray[offset + ((littleEndian)?0:3)];
+        this.uint8Array[1] = this.byteArray[offset + ((littleEndian)?1:2)];
+        this.uint8Array[2] = this.byteArray[offset + ((littleEndian)?2:1)];
+        this.uint8Array[3] = this.byteArray[offset + ((littleEndian)?3:0)];
         return this.int32Array[0];
     };
 
-    FastDataView.prototype.setFloat32 = function(offset, value) {
+    FastDataView.prototype.setFloat32 = function(offset, value, littleEndian) {
         this.float32Array[0] = value;
-        this.byteArray[offset] = this.uint8Array[3];
-        this.byteArray[offset + 1] = this.uint8Array[2];
-        this.byteArray[offset + 2] = this.uint8Array[1];
-        this.byteArray[offset + 3] = this.uint8Array[0];
+        this.byteArray[offset + ((littleEndian)?3:0)] = this.uint8Array[3];
+        this.byteArray[offset + ((littleEndian)?2:1)] = this.uint8Array[2];
+        this.byteArray[offset + ((littleEndian)?1:2)] = this.uint8Array[1];
+        this.byteArray[offset + ((littleEndian)?0:3)] = this.uint8Array[0];
     };
 
-    FastDataView.prototype.getFloat32 = function(offset) {
+    FastDataView.prototype.getFloat32 = function(offset, littleEndian) {
         // Use TypedArray
-        this.uint8Array[0] = this.byteArray[offset + 3];
-        this.uint8Array[1] = this.byteArray[offset + 2];
-        this.uint8Array[2] = this.byteArray[offset + 1];
-        this.uint8Array[3] = this.byteArray[offset];
+        this.uint8Array[0] = this.byteArray[offset + ((littleEndian)?0:3)];
+        this.uint8Array[1] = this.byteArray[offset + ((littleEndian)?1:2)];
+        this.uint8Array[2] = this.byteArray[offset + ((littleEndian)?2:1)];
+        this.uint8Array[3] = this.byteArray[offset + ((littleEndian)?3:0)];
         return this.float32Array[0];
     };
 
-    FastDataView.prototype.setFloat64 = function(offset, value) {
+    FastDataView.prototype.setFloat64 = function(offset, value, littleEndian) {
         this.float64Array[0] = value;
-        this.byteArray[offset] = this.uint8Array[7];
-        this.byteArray[offset + 1] = this.uint8Array[6];
-        this.byteArray[offset + 2] = this.uint8Array[5];
-        this.byteArray[offset + 3] = this.uint8Array[4];
-        this.byteArray[offset + 4] = this.uint8Array[3];
-        this.byteArray[offset + 5] = this.uint8Array[2];
-        this.byteArray[offset + 6] = this.uint8Array[1];
-        this.byteArray[offset + 7] = this.uint8Array[0];
+        this.byteArray[offset + ((littleEndian)?7:0)] = this.uint8Array[7];
+        this.byteArray[offset + ((littleEndian)?6:1)] = this.uint8Array[6];
+        this.byteArray[offset + ((littleEndian)?5:2)] = this.uint8Array[5];
+        this.byteArray[offset + ((littleEndian)?4:3)] = this.uint8Array[4];
+        this.byteArray[offset + ((littleEndian)?3:4)] = this.uint8Array[3];
+        this.byteArray[offset + ((littleEndian)?2:5)] = this.uint8Array[2];
+        this.byteArray[offset + ((littleEndian)?1:6)] = this.uint8Array[1];
+        this.byteArray[offset + ((littleEndian)?0:7)] = this.uint8Array[0];
     };
 
-    FastDataView.prototype.getFloat64 = function(offset) {
+    FastDataView.prototype.getFloat64 = function(offset, littleEndian) {
         // Use TypedArray
-        this.uint8Array[0] = this.byteArray[offset + 7];
-        this.uint8Array[1] = this.byteArray[offset + 6];
-        this.uint8Array[2] = this.byteArray[offset + 5];
-        this.uint8Array[3] = this.byteArray[offset + 4];
-        this.uint8Array[4] = this.byteArray[offset + 3];
-        this.uint8Array[5] = this.byteArray[offset + 2];
-        this.uint8Array[6] = this.byteArray[offset + 1];
-        this.uint8Array[7] = this.byteArray[offset];
+        this.uint8Array[0] = this.byteArray[offset + ((littleEndian)?0:7)];
+        this.uint8Array[1] = this.byteArray[offset + ((littleEndian)?1:6)];
+        this.uint8Array[2] = this.byteArray[offset + ((littleEndian)?2:5)];
+        this.uint8Array[3] = this.byteArray[offset + ((littleEndian)?3:4)];
+        this.uint8Array[4] = this.byteArray[offset + ((littleEndian)?4:3)];
+        this.uint8Array[5] = this.byteArray[offset + ((littleEndian)?5:2)];
+        this.uint8Array[6] = this.byteArray[offset + ((littleEndian)?6:1)];
+        this.uint8Array[7] = this.byteArray[offset + ((littleEndian)?7:0)];
         return this.float64Array[0];
     };
 
